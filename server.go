@@ -3,12 +3,14 @@ package echo
 import (
 	"echo/db"
 	"echo/handle"
+	"github.com/foolin/goview"
+	"github.com/foolin/goview/supports/ginview"
 	"github.com/gin-gonic/gin"
-	"html/template"
 	"io/fs"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 func Run() error {
@@ -28,11 +30,7 @@ func initDb() {
 func initEngine() *gin.Engine {
 	engine := gin.Default()
 
-	templateDir, err := fs.Sub(templateFS, "template")
-	if err != nil {
-		log.Fatal("Cannot find template dir")
-	}
-	engine.SetHTMLTemplate(template.Must(template.New("test").ParseFS(templateDir, "**")))
+	engine.HTMLRender = initGoView()
 
 	staticDir, err := fs.Sub(staticFS, "static")
 	if err != nil {
@@ -44,4 +42,19 @@ func initEngine() *gin.Engine {
 		engine.GET(handler.Path(), handler.Handle)
 	}
 	return engine
+}
+
+func initGoView() *ginview.ViewEngine {
+	gv := ginview.Default()
+	gv.ViewEngine.SetFileHandler(func(config goview.Config, tplFile string) (content string, err error) {
+		path := filepath.Join(config.Root, tplFile)
+		bytes, err := viewsFS.ReadFile(path + config.Extension)
+		if err != nil {
+			return "", err
+		}
+		content = string(bytes)
+		return content, nil
+	})
+
+	return gv
 }
