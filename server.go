@@ -1,14 +1,16 @@
 package echo
 
-import "github.com/gin-gonic/gin"
+import (
+	"echo/handle"
+	"github.com/gin-gonic/gin"
+)
 
 func Run() error {
 	engine := gin.Default()
-	engine.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"hello": "world",
-		})
-	})
+
+	for _, handler := range handle.Handlers {
+		engine.GET(handler.Path(), handler.Handle)
+	}
 
 	return engine.Run(":10023")
 }
