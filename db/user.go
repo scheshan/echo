@@ -1,7 +1,7 @@
 package db
 
 type User struct {
-	Id         int
+	ID         int
 	UserName   string
 	Password   string
 	CreateTime int
