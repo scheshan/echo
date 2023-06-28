@@ -13,5 +13,5 @@ func init() {
 	Handlers = make([]Handler, 0)
 
 	Handlers = append(Handlers, &home{})
-	Handlers = append(Handlers, &instanceList{})
+	Handlers = append(Handlers, &instanceList{}, &instanceAdd{})
 }
