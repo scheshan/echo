@@ -3,15 +3,20 @@ package handle
 import "github.com/gin-gonic/gin"
 
 type Handler interface {
-	Path() string
 	Handle(ctx *gin.Context)
 }
 
-var Handlers []Handler
+var engine *gin.Engine
 
-func init() {
-	Handlers = make([]Handler, 0)
+func Init(eng *gin.Engine) {
+	engine = eng
 
-	Handlers = append(Handlers, &home{})
-	Handlers = append(Handlers, &instanceList{}, &instanceAdd{})
+	addHandler("/", &home{})
+
+	addHandler("/instances", &instanceList{})
+	addHandler("/instances/add", &instanceAdd{})
+}
+
+func addHandler(path string, handler Handler) {
+	engine.GET(path, handler.Handle)
 }

@@ -38,9 +38,7 @@ func initEngine() *gin.Engine {
 	}
 	engine.StaticFS("static", http.FS(staticDir))
 
-	for _, handler := range handle.Handlers {
-		engine.GET(handler.Path(), handler.Handle)
-	}
+	handle.Init(engine)
 	return engine
 }
 

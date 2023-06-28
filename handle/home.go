@@ -12,5 +12,5 @@ func (t *home) Path() string {
 }
 
 func (t *home) Handle(ctx *gin.Context) {
-	ctx.HTML(200, "index.html", nil)
+	ctx.HTML(200, "index", nil)
 }
