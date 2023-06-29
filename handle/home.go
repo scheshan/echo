@@ -1,6 +1,7 @@
 package handle
 
 import (
+	"echo/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,5 +13,5 @@ func (t *home) Path() string {
 }
 
 func (t *home) Handle(ctx *gin.Context) {
-	ctx.HTML(200, "index", nil)
+	ctx.JSON(200, model.Success[*home]())
 }

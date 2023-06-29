@@ -15,7 +15,7 @@ func Init(eng *gin.Engine) {
 
 	addHandler("/", &home{})
 
-	addHandler("/instances", &instanceList{})
+	addHandler("/api/instances", &instanceList{})
 	addHandler("/instances/add", &instanceAdd{})
 	addPostHandler("/instances/save", &instanceSave{})
 }
