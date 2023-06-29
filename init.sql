@@ -8,11 +8,10 @@ create table users (
     unique index(username)
 );
 
-create table instance (
+create table instances (
     id bigint primary key auto_increment,
     name varchar(50) not null,
     description varchar(1000),
-    `condition` longtext not null,
     create_user bigint not null,
     create_time bigint not null,
     update_time bigint not null,

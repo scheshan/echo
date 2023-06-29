@@ -1,6 +1,8 @@
 package handle
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type Handler interface {
 	Handle(ctx *gin.Context)
@@ -15,8 +17,13 @@ func Init(eng *gin.Engine) {
 
 	addHandler("/instances", &instanceList{})
 	addHandler("/instances/add", &instanceAdd{})
+	addPostHandler("/instances/save", &instanceSave{})
 }
 
 func addHandler(path string, handler Handler) {
 	engine.GET(path, handler.Handle)
+}
+
+func addPostHandler(path string, handler Handler) {
+	engine.POST(path, handler.Handle)
 }
